@@ -11,7 +11,7 @@ def carregar_dados():
     Certifique-se de que o arquivo 'Preços Herois.csv' esteja na mesma pasta do 'app.py'.
     """
     try:
-        df = pd.read_csv("Novos Serviços.csv")
+        df = pd.read_csv("Preços Herois.csv")
         # Renomear colunas para compatibilidade com o código do histograma
         # 'nm_servico' -> 'servico' e 'vl_preco' -> 'price'
         # Assumindo que o CSV já tem as colunas 'nm_servico', 'tipo_compra', 'quantidade_captada', 'vl_preco'
@@ -49,10 +49,20 @@ if selecionar_todos_tipos_compra:
 else:
     tipos_compra_selecionados = st.sidebar.multiselect("Tipo de Compra", todos_tipos_compra, key="tipo_select_manual")
 
+# Novo filtro para Quantidade Captada
+todos_quantidades_captada = sorted(df["quantidade_captada"].unique())
+selecionar_todas_quantidades_captada = st.sidebar.checkbox("Selecionar todas as quantidades captadas", value=True, key="qtd_all")
+if selecionar_todas_quantidades_captada:
+    quantidades_captada_selecionadas = st.sidebar.multiselect("Quantidade Captada", todos_quantidades_captada, default=todos_quantidades_captada, key="qtd_select")
+else:
+    quantidades_captada_selecionadas = st.sidebar.multiselect("Quantidade Captada", todos_quantidades_captada, key="qtd_select_manual")
+
+
 # --- Filtrar dados com base nas seleções do usuário ---
 df_filtrado = df[
     (df["servico"].isin(servicos_selecionados)) &
-    (df["tipo_compra"].isin(tipos_compra_selecionados))
+    (df["tipo_compra"].isin(tipos_compra_selecionados)) &
+    (df["quantidade_captada"].isin(quantidades_captada_selecionadas)) # Adicionado o novo filtro
 ]
 
 # --- Função auxiliar para plotar histogramas ---
