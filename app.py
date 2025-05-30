@@ -11,7 +11,7 @@ def carregar_dados():
     Certifique-se de que o arquivo 'Preços Herois.csv' esteja na mesma pasta do 'app.py'.
     """
     try:
-        df = pd.read_csv("Preços Herois.csv")
+        df = pd.read_csv("Novos Serviços.csv")
         # Renomear colunas para compatibilidade com o código do histograma
         # 'nm_servico' -> 'servico' e 'vl_preco' -> 'price'
         # Assumindo que o CSV já tem as colunas 'nm_servico', 'tipo_compra', 'quantidade_captada', 'vl_preco'
