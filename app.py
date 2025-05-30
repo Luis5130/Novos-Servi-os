@@ -11,7 +11,7 @@ def carregar_dados():
     Certifique-se de que o arquivo 'Preços Herois.csv' esteja na mesma pasta do 'app.py'.
     """
     try:
-        df = pd.read_csv("Novos Serviços.csv")
+        df = pd.read_csv("Preços Herois.csv")
         # Renomear colunas para compatibilidade com o código do histograma
         # 'nm_servico' -> 'servico' e 'vl_preco' -> 'price'
         # Assumindo que o CSV já tem as colunas 'nm_servico', 'tipo_compra', 'quantidade_captada', 'vl_preco'
@@ -28,7 +28,7 @@ def carregar_dados():
 # Carrega os dados uma vez e armazena em cache
 df = carregar_dados()
 
-st.title("📊 Histograma Interativo de Preços por Serviço e Tipo de Compra")
+st.title("📊 Histograma Interativo de Preços por Serviço") # Título principal ajustado
 
 # --- Filtros na barra lateral ---
 st.sidebar.header("Filtros")
@@ -41,7 +41,7 @@ if selecionar_todos_servicos:
 else:
     servicos_selecionados = st.sidebar.multiselect("Serviço", todos_servicos, key="serv_select_manual")
 
-# Filtro por Tipo de Compra
+# Filtro por Tipo de Compra (mantido para filtrar os dados, mas não para gerar um histograma separado)
 todos_tipos_compra = sorted(df["tipo_compra"].unique())
 selecionar_todos_tipos_compra = st.sidebar.checkbox("Selecionar todos os tipos de compra", value=True, key="tipo_all")
 if selecionar_todos_tipos_compra:
@@ -65,7 +65,7 @@ def plotar_histograma(df_data, group_col, title_prefix):
         group_col (str): Nome da coluna para agrupar (ex: 'servico', 'tipo_compra').
         title_prefix (str): Prefixo para o título do subcabeçalho.
     """
-    st.subheader(f"{title_prefix} (com filtros aplicados)")
+    st.subheader(title_prefix)
 
     if df_data.empty:
         st.warning("Nenhum dado encontrado com os filtros selecionados.")
@@ -166,8 +166,6 @@ def plotar_histograma(df_data, group_col, title_prefix):
 # --- Plotar Histograma de Serviços ---
 plotar_histograma(df_filtrado, "servico", "Distribuição de Preços por Serviço")
 
-# --- Separador visual entre os gráficos ---
-st.markdown("---")
-
-# --- Plotar Histograma por Tipo de Compra ---
-plotar_histograma(df_filtrado, "tipo_compra", "Distribuição de Preços por Tipo de Compra")
+# As linhas abaixo foram removidas para atender à sua solicitação:
+# st.markdown("---")
+# plotar_histograma(df_filtrado, "tipo_compra", "Distribuição de Preços por Tipo de Compra")
